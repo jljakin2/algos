@@ -11,6 +11,7 @@ class BinarySearchTree {
     this.root = null;
   }
 
+  // Insert a value in the tree
   insert(value) {
     const newNode = new Node(val);
     if (this.root === null) {
@@ -39,6 +40,7 @@ class BinarySearchTree {
     }
   }
 
+  // Find a value in the tree
   find(value) {
     if (this.root === null) return false;
 
@@ -59,7 +61,7 @@ class BinarySearchTree {
     return current;
   }
 
-  // Breadth-First Search
+  // Breadth First Search
   BFS() {
     let data = [];
     let queue = [];
@@ -74,6 +76,21 @@ class BinarySearchTree {
       if (node.right) queue.push(node.right);
     }
 
+    return data;
+  }
+
+  // Depth First Search
+  DFSPreOrder() {
+    let data = []; // keep track of node.values as they come back from the call stack
+
+    function traverse(node) {
+      // helper function that adds the node.value to the data array, then recursively calls itself on the left/right nodes of the current node, if they exist
+      data.push(node.value);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+
+    traverse(this.root); // kicks off the recursive calls with the root node
     return data;
   }
 }
