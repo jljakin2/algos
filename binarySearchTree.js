@@ -110,4 +110,21 @@ class BinarySearchTree {
     traverse(this.root);
     return data;
   }
+
+  // InOrder
+  DFSInOrder() {
+    // exactly the same as preOrder and posOrder, except we go all the way down the left side, then return the node.value.
+    // Then repeat for the right side. As we make our way back up to the root node, we add its value to the data array as well.
+    let data = [];
+
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      // add the node.value after we get to the bottom left node
+      data.push(node.value);
+      if (node.right) traverse(node.right);
+    }
+
+    traverse(this.root);
+    return data;
+  }
 }
