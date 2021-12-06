@@ -61,7 +61,7 @@ class BinarySearchTree {
     return current;
   }
 
-  // Breadth First Search
+  // BREADTH FIRST SEARCH
   BFS() {
     let data = [];
     let queue = [];
@@ -69,7 +69,7 @@ class BinarySearchTree {
     queue.push(node);
 
     while (queue.length) {
-      node = queue.shift();
+      node = queue.shift(); // remove first node from the queue
       data.push(node.value); // using the value makes it easier to see what the data actually is. otherwise, it will be nodes
 
       if (node.left) queue.push(node.left);
@@ -79,7 +79,8 @@ class BinarySearchTree {
     return data;
   }
 
-  // Depth First Search
+  // DEPTH FIRST SEARCH
+  // PreOrder
   DFSPreOrder() {
     let data = []; // keep track of node.values as they come back from the call stack
 
@@ -91,6 +92,22 @@ class BinarySearchTree {
     }
 
     traverse(this.root); // kicks off the recursive calls with the root node
+    return data;
+  }
+
+  // PostOrder
+  DFSPostOrder() {
+    // exactly the same as preOrder except we add the node.value to the data array after getting to the very bottom element on the left and right
+    let data = [];
+
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      // add the node.value after we get to the bottom nodes
+      data.push(node.value);
+    }
+
+    traverse(this.root);
     return data;
   }
 }
