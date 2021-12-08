@@ -1,8 +1,9 @@
 class MaxBinaryHeap {
   constructor() {
-    this.values = [];
+    this.values = []; // where we will keep track of our maxBinaryHeap
   }
-
+  // =============================================================================================================================
+  // INSERT INTO HEAP
   insert(element) {
     this.values.push(element); // push whatever value is passed in to the back of the array
     this.bubbleUp(); // use the bubbleUp method to put the newly added element where it needs to in the array
@@ -24,4 +25,71 @@ class MaxBinaryHeap {
       idx = parentIdx; // change the original index to where the parent was and start the loop over again
     }
   }
+  // =============================================================================================================================
+
+  // =============================================================================================================================
+  // REMOVE THE MAX FROM HEAP
+  extractMax() {
+    const max = this.values[0]; // get the first element
+    const end = this.values.pop(); // pop off the last element because we want to swap it with the max
+
+    if (this.value.length > 0) {
+      // handles the edge case when there is only item left in the array
+      this.values[0] = end; // sets the first item of the array to what was the last element that we just popped off
+      this.sinkDown(); // starts the process of "percolating-down" so the element we just placed at the front, finds its proper place in the heap
+    }
+
+    return max;
+  }
+
+  sinkDown() {
+    let idx = 0; // set the initial index for where sinkDown() will start
+    const length = this.values.length; // helps to shorten code
+    const element = this.values[0]; // get the actual value of the first item
+
+    while (true) {
+      let leftChildIdx = 2 * idx + 1; // find the left index based on taking the current index and putting it through the 2n + 1 formula for left children
+      let rightChildIdx = 2 * idx + 2; // find the right index based on taking the current index and putting it through the 2n + 2 formula for right children
+      let leftChild, rightChild; // initialize two variables for the actual values of the left and right children but we need to check if the index used to get these values is out of bounds or not
+      let swap = null; // variable to keep track of if there were any swaps in the loop which would later mean we keep the loop going
+
+      if (leftChildIdx < length) {
+        // is the index for the left child out of bounds of the array
+        leftChild = this.values[leftChildIdx]; // since we know we are not out of bounds, we can finally set the actual value of the left child index
+        if (leftChild > element) {
+          // check if the left child value is greater than the element's value
+          swap = leftChildIdx; // if the value is greater, change swap to equal the the index of the left child.
+        }
+      }
+
+      // we will ultimately keep changing this swap variable to the index of the value that is greater than the current element.
+      // left will always be checked first, but later we will check if right is greater than left so we will update the swap variable accordingly.
+      // this is where the logic for the while loop comes in: if we find that none of the children are larger or we are out of bounds, then the swap variable will be null and we will exit the loop
+
+      if (rightChildIdx < length) {
+        // check that the rightChild index is not out of bounds
+        rightChild = this.values[rightChildIdx]; // set the rightChild variable to the actual value at the rightChild index
+
+        // our conditional check for the right child is going to be a bit different now since we have to first check if the rightChild value is larger than the element value, then we have to check if the rightChild value is greater than the leftChild value
+        if (
+          (swap === null && rightChild > element) ||
+          (swap !== null && rightChild > leftChild)
+        ) {
+          // 1. is swap still null AND the rightChild is greater than the element
+          // OR
+          // 2. swap isn't null (which means the leftChild fulfilled the greater than the element condition) AND rightChild is greater than the leftChild
+
+          swap = rightChildIdx; // if either of those is true, we will change the swap variable to the rightChild index
+        }
+
+        if (swap === null) break; // is swap is still null at this point, we can break out of the while loop
+
+        // finally! we only get here if the swap value isn't null
+        this.value[idx] = this.values[swap]; // swap the initial value at the initial index with the value at the swap index we found in the while loop
+        this.value[swap] = element; // change the value at the swap index to the initial element we grabbed
+        idx = swap; // the starting index is now equal to where we just completed the swap so we can continue "percolating"
+      }
+    }
+  }
+  // =============================================================================================================================
 }
