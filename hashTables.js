@@ -49,4 +49,46 @@ class HashTable {
 
     return undefined; // if nothing is ever found, return undefined
   }
+
+  // get all of the values in the hash table
+  values() {
+    let valuesArr = []; // set an empty array which we will eventually push all of the values to and return it at the end
+
+    for (let i = 0; i < this.keyMap.length; i++) {
+      // loop through the entire hash table
+      if (this.keyMap[i]) {
+        // if an item exists at that index. this avoids looping through indexes of the hash table that have nothing in them
+        for (let j = 0; j < this.keyMap[i].length; j++) {
+          // within that index, loop over all key, value pairs (it's possible there is only one pair but the loop gives flexibility for multiple)
+          if (!valuesArr.includes(this.keyMap[i][j][1])) {
+            // if the final valuesArr doesn't have the value we are evaluating in it. REMEMBER: values are the second item in the key, value pair which is why we use [1]
+            valuesArr.push(this.keyMap[i][j][1]); // push that value into the final valuesArr array
+          }
+        }
+      }
+    }
+    return valuesArr; // return valuesArr array with whatever values we found
+  }
+
+  // get all of the keys in the hash table.
+  // this implementation doesn't deal with duplicate keys.
+  // you could either create a check for it in the set method and notify the user or replace the existing key, value pair which is what most programming languages do.
+  keys() {
+    let keysArr = []; // set an empty array which we will eventually push all of the keys to and return it at the end
+
+    for (let i = 0; i < this.keyMap.length; i++) {
+      // loop through the entire hash table
+      if (this.keyMap[i]) {
+        // if an item exists at that index. this avoids looping through indexes of the hash table that have nothing in them
+        for (let j = 0; j < this.keyMap[i].length; j++) {
+          // within that index, loop over all key, value pairs (it's possible there is only one pair but the loop gives flexibility for multiple)
+          if (!keysArr.includes(this.keyMap[i][j][0])) {
+            // if the final valuesArr doesn't have the key we are evaluating in it. REMEMBER: keys are the first item in the key, value pair which is why we use [0]
+            keysArr.push(this.keyMap[i][j][0]); // push that key into the final valuesArr array
+          }
+        }
+      }
+    }
+    return keysArr;
+  }
 }
