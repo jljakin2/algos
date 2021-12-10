@@ -32,4 +32,18 @@ class Graph {
       v => v !== vertex1
     );
   }
+
+  // remove a vertex from our graph
+  removeVertex(vertex) {
+    // take in a vertex
+    // NOTE: this is a very basic implementation. it doesn't have error checking for vertex types and already existing edges. REMEMBER to add those in when interviewing
+    // GOAL: we want to remove all connections with the provided vertex so we will call removeEdge on each vertex in the provided vertex's array
+    while (this.adjacencyList[vertex].length) {
+      // loop through the entire array of the provided vertex so long as there are vertexes still in it
+      const adjacentVertex = this.adjacencyList[vertex].pop(); // pop off the last vertex of the array and set it equal to a new variable called adjacentVertex
+      this.removeEdge(vertex, adjacentVertex); // call removeEdge() between the provided vertex and the vertex we just popped off which is in the adjacentVertex variable
+    }
+
+    delete this.adjacencyList[vertex]; // finally, once we have removed every vertex in the vertex's array, we delete the provided vertex from the adjacencyList
+  }
 }
