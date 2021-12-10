@@ -31,4 +31,22 @@ class HashTable {
 
     this.keyMap[index].push([key, value]); // then we push the key, value pair from the arguments to the array at that index
   }
+
+  // get a value, based on the provided key
+  get(key) {
+    let index = this._hash(key); // run the hash function on the provided key to get an index of where to place it in the hash table (array)
+
+    if (this.keyMap[index]) {
+      // if there is something at the index
+      for (let i = 0; i < this.keyMap[index].length; i++) {
+        // loop through all of the items at that index (if there are multiple. otherwise, the loop will only run once)
+        if (this.keyMap[index][i][0] === key) {
+          // if the key at that index and iteration of the items at that index ([i] is the index of the loop and [0] grabs the key in the key, value array) are equal to the provided key
+          return this.keyMap[index][i][1]; // return the value of that matching key, value pair
+        }
+      }
+    }
+
+    return undefined; // if nothing is ever found, return undefined
+  }
 }
