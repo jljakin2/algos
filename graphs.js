@@ -75,6 +75,8 @@ class Graph {
     return result; // return the array of vertexes that we traversed
   }
 
+  // !NOTE: the recursive and iterative solutions for DFS will result in different traversal orders but that is totally normal. The logic is still based on DFS.
+
   // traverse our graph using DFS (iterative)
   depthFirstIterative(start) {
     // take in a starting vertex
@@ -101,5 +103,33 @@ class Graph {
     }
 
     return result; // return the array with all of the vertexes we have visited and the order in which we visited them
+  }
+
+  // breadth-first traversal for graph
+  breadthFirst(start) {
+    // provide starting vertex
+    const queue = [start]; // we will use a queue to track the next vertex we need to visit. starting with the provided starting vertex
+    const result = []; // list of all vertexes that have been visited in the order they were visited
+    const visited = {}; // keep track of whether or not a vertex has been visited already
+    let currentVertex; // declare current working vertex so we can redefine later in our while loop
+
+    visited[start] = true; // update our vertex tracker to indicate that we have visited the provided starting vertex
+
+    while (queue.length) {
+      // while there are vertexes in the queue
+      currentVertex = queue.shift(); // take the first vertex off of the queue and set it to the currentVertex
+      result.push(currentVertex); // add the current vertex to the list of vertexes we are keeping track of for the return
+
+      this.adjacencyList[currentVertex].forEach(neighbor => {
+        // for each neighbor of the current vertex (based on the graph's adjacency list)
+        if (!visited[neighbor]) {
+          // if the neighbor is NOT in the visited object
+          visited[neighbor] = true; // add the vertex to the visited object to indicate we have visited that vertex already
+          queue.push(neighbor); // and add the vertex to the queue so we can investigate its neighbors
+        }
+      });
+    }
+
+    return result; // return the list of vertexes that have been visited in the order they were visited
   }
 }
