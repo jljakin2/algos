@@ -46,4 +46,60 @@ class Graph {
 
     delete this.adjacencyList[vertex]; // finally, once we have removed every vertex in the vertex's array, we delete the provided vertex from the adjacencyList
   }
+
+  // traverse our graph using DFS (recursive)
+  depthFirstRecursive(start) {
+    // take in a starting vertex
+    const result = []; // initialize an array of all of the vertexes we visit. we will eventually return this array at the end of the method
+    const visited = {}; // initialize an object that keeps track of where we have been
+    const adjacencyList = this.adjacencyList; // keeps the scope of "this" for adjacencyList so we can use it in our recursive helper function
+
+    // actual recursive helper function
+    function dfs(vertex) {
+      // take in a vertex
+      if (!vertex) return null; // if there isn't a vertex, just return null
+      visited[vertex] = true; // take the provided vertex and add it to our visited object and set its value equal to "true" so we know we have visited it
+      result.push(vertex); // add the provided vertex to our result array
+
+      adjacencyList[vertex].forEach(neighbor => {
+        // go through each vertex in the graph's adjacency list and if that neighbor is not in our visited object that keeps track of the vertexes we have visited,
+        // then run the recursive function on that vertex
+        if (!visited[neighbor]) {
+          return dfs(neighbor);
+        }
+      });
+    }
+
+    dfs(start); // initialize the recursive dfs function with the provided start variable
+
+    return result; // return the array of vertexes that we traversed
+  }
+
+  // traverse our graph using DFS (iterative)
+  depthFirstIterative(start) {
+    // take in a starting vertex
+    const stack = [start]; // create a stack where we will keep track of the vertexes we will go to next. initialize it with the provided start vertex
+    const result = []; // keep track of the order of the vertexes we visited. we will eventually return this array at the end of the method
+    const visited = {}; // keep track of which vertexes we have visited
+    let currentVertex; // initialize a currentVertex variable so we can keep redefining it in the loop below
+
+    visited[start] = true; // add the provided start vertex to the visited object and set its value to "true"
+
+    while (stack.length) {
+      // while there are vertexes still in the stack
+      currentVertex == stack.pop(); // take the last element off of the stack and define it as the currentVertex
+      result.push(currentVertex); // add this current vertex to the result array
+
+      this.adjacencyList[currentVertex].forEach(neighbor => {
+        // for each of the neighbors in the current vertex (which is defined in the graph's adjacency list)
+        if (!visited[neighbor]) {
+          // if we have NOT visited the neighbor
+          visited[neighbor] = true; // add that neighbor to the visited object and set its value to "true"
+          stack.push(neighbor); // push that neighbor on to the stack so we can check out its neighbors next
+        }
+      });
+    }
+
+    return result; // return the array with all of the vertexes we have visited and the order in which we visited them
+  }
 }
